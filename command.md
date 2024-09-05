@@ -23,6 +23,10 @@ You can use `.dockerignore` file to exclude files and directories from the build
 ```shell
 # create volume
 docker volume create mysql-data ## Tạo một volume
+docker volume rm my_volume ## Xóa một volume
+docker volume inspect my_volume ## Hiển thị thông tin chi tiết về volume.
+
+
 
 # run mysql container in the background
 $ docker run --name mysql-db -v mysql-data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
@@ -66,6 +70,12 @@ docker ps -f "status=exited"
 docker ps -aq --no-trunc
 docker container ps
 docker container list
+
+docker exec -it my_container bash // Thực thi một lệnh trong container đang chạy.
+
+
+docker attach my_container //Đi vào một container đang chạy.
+docker logs my_container //Xem logs của container.
 
 
 
