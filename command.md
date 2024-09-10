@@ -20,6 +20,8 @@ You can use `.dockerignore` file to exclude files and directories from the build
 ## 3. `compose.yaml`
 
 ## 4. Volumes
+`Docker Volumes`: để lưu trữ dữ liệu cho việc sử dụng và tạo apps.
+
 ```shell
 # create volume
 docker volume create mysql-data ## Tạo một volume
@@ -49,17 +51,27 @@ ll /var/lib/docker/volumes        ## Kiểm tra volume được tạo ra
 
 ## 2. Container
 
-### List running containers:-
+### 2.1 List running containers:-
 ```shell
 docker container ls
 docker container ls -a
-docker ps
 
-
-docker ps -a
+docker ps # Liệt kê các container đang chạy.
+docker ps -a # Liệt kê tất cả các container (bao gồm cả những container đã dừng lại)
 docker ps -a -f status=running
 ```
-### List only stopped containers:-
+
+
+```shell
+docker run -d --name my_container nginx # Tạo và khởi động một container
+
+docker stop my_container
+docker start my_container
+docker restart my_container
+
+
+```
+### 2.2 List only stopped containers:-
 ```shell
 docker ps --filter "status=exited"
 docker ps -f "status=exited"
@@ -71,15 +83,26 @@ docker ps -aq --no-trunc
 docker container ps
 docker container list
 
-docker exec -it my_container bash // Thực thi một lệnh trong container đang chạy.
+docker exec -it my_container bash # Thực thi một lệnh trong container đang chạy.
 
 
 docker attach my_container //Đi vào một container đang chạy.
 docker logs my_container //Xem logs của container.
-
-
-
 ```
+2.3 Mounting a Host Directory in a Docker Container:
+```shell
+docker run -v /path/to/host/directory:/path/in/container my_image
+
+docker run \
+  -it \
+  --platform linux/amd64 \
+  --mount type=bind,src=.,dst=/usr/app \
+  --mount type=volume,dst=/usr/app/node_modules \
+  alpine:latest
+```
+- [how-to-mount-current-working-directory-to-your-docker-container](https://ritviknag.com/tech-tips/how-to-mount-current-working-directory-to-your-docker-container/)
+- [docker-mount-host-filesystem](https://www.baeldung.com/linux/docker-mount-host-filesystem)
+- [docker-mount-volume-guide-how-to-mount-a-local-directory](https://www.freecodecamp.org/news/docker-mount-volume-guide-how-to-mount-a-local-directory/)
 
 ## stack
 ```shell
@@ -87,6 +110,7 @@ docker stack ls
 ```
 
 ## service
+`Docker Services`: hiểu đơn giản là gồm các conntainer của ứng dụng và mỗi service chạy 1 image đã được định nghĩa.
 ```shell
 docker service ls
 ```
@@ -116,3 +140,17 @@ docker run -it apache_snapshot /bin/bash
 docker search ubuntu
 docker pull ubuntu
 ```
+
+Docker Client: là cách mà bạn tương tác với docker thông qua command.
+Docker Daemon: lắng nghe các yêu cầu từ Docker Engine thông qua giao thức HTTP hoặc Unix socket và thực hiện yêu cầu.
+Docker Registry: nơi lưu trữ riêng của Docker Images. Images được push vào registry và client sẽ pull images từ registry.
+Docker Hub: là một dịch vụ đám mây cho phép lưu trữ và chia sẻ các container Docker.
+Docker Repository: là tập hợp các Docker Images cùng tên nhưng khác tag.
+Docker Networking: là tính năng cho phép các container Docker tương tác và giao tiếp với nhau và với mạng bên ngoài một cách linh hoạt.
+Docker Compose: Là công cụ để quản lý và triển khai nhiều ứng dụng (docker container) một cách dễ dàng.
+Docker Swarm: để phối hợp triển khai container.
+
+
+## Dockerizing a PHP
+- [semaphoreci.com](https://semaphoreci.com/community/tutorials/dockerizing-a-php-application)
+- [cloudways.com](https://www.cloudways.com/blog/docker-php-application/)
